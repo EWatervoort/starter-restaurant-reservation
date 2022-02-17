@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useHistory } from 'react-router-dom';
 import { createReservation } from "../utils/api"
 
@@ -11,7 +11,10 @@ function ReservationForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await createReservation(reservation)
+    const response = await createReservation(reservation);
+    if (response.message) {
+      console.log(response.message)
+    }
     history.push("/")
   }
 
