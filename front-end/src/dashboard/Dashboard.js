@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
-import { useSearchParams } from 'react-router-dom';
 
 /**
  * Defines the dashboard page.
@@ -10,8 +9,9 @@ import { useSearchParams } from 'react-router-dom';
  * @returns {JSX.Element}
  */
 function Dashboard({ defaultDate }) {
-  const [searchParams, _setSearchParams] = useSearchParams();
-  const date = searchParams?.get('date') || defaultDate;
+
+  const params = new URLSearchParams(window.location.search)
+  const date = params?.get("date") || defaultDate;
 
   console.log(date);
   const [reservations, setReservations] = useState([]);

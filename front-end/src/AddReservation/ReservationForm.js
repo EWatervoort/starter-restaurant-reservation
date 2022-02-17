@@ -18,6 +18,11 @@ function ReservationForm() {
     history.push("/")
   }
 
+  const handleCancel = (event) => {
+    event.preventDefault();
+    history.goBack();
+  }
+
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="first_name">
@@ -86,7 +91,8 @@ function ReservationForm() {
           value = {reservation.people}
         />
       </label>
-      <button type = "submit" className="btn btn-primary">Sumbit</button>
+      <button type = "submit" className="btn btn-primary">Submit</button>
+      <button type="button" className="btn btn-secondary" onClick={handleCancel}>Cancel</button>
     </form>
   )
 }
