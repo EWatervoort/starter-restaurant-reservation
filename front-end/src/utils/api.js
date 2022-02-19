@@ -40,7 +40,7 @@ async function fetchJson(url, options, onCancel) {
     const payload = await response.json();
 
     if (payload.error) {
-      return Promise.reject({ message: payload.error });
+      return payload;
     }
     return payload.data;
   } catch (error) {
@@ -69,12 +69,13 @@ export async function listReservations(params, signal) {
 }
 
 export async function createReservation(reservation, signal) {
-  const url = `${API_BASE_URL}/reservations/new`;
+  const url = `${API_BASE_URL}/reservations`;
   const options = {
     method: "POST",
     headers,
-    body: JSON.stringify(reservation),
+    body: JSON.stringify({ data: reservation }),
     signal,
   };
-  return await fetchJson(url, options, {});
+  const response = await fetchJson(url, options, {});
+  return response;
 }
