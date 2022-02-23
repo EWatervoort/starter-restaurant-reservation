@@ -40,7 +40,7 @@ async function fetchJson(url, options, onCancel) {
     const payload = await response.json();
 
     if (payload.error) {
-      return Promise.reject({ message: payload.error });
+      return payload;
     }
     return payload.data;
   } catch (error) {
@@ -53,7 +53,7 @@ async function fetchJson(url, options, onCancel) {
 }
 
 /**
- * Retrieves all existing reservation.
+ * Retrieves all existing reservations.
  * @returns {Promise<[reservation]>}
  *  a promise that resolves to a possibly empty array of reservation saved in the database.
  */
@@ -69,12 +69,40 @@ export async function listReservations(params, signal) {
 }
 
 export async function createReservation(reservation, signal) {
-  const url = `${API_BASE_URL}/reservations/new`;
+  const url = `${API_BASE_URL}/reservations`;
   const options = {
     method: "POST",
     headers,
-    body: JSON.stringify(reservation),
+    body: JSON.stringify({ data: reservation }),
     signal,
+  };
+  const response = await fetchJson(url, options, {});
+  return response;
+}
+
+export async function createTable(table, signal) {
+  const url = `${API_BASE_URL}/tables`;
+  const options = {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ data: table }),
+    signal,
+  };
+  return await fetchJson(url, options, table);
+}
+
+export async function listTables(signal) {
+  const url = new URL(`${API_BASE_URL}/tables`);
+  return await fetchJson(url, { headers, signal }, [])
+}
+
+export async function seatReservation(reservation_id, table_id) {
+  console.log(table_id)
+  const url = `${API_BASE_URL}/tables/${table_id}/seat`;
+  const options = {
+    method: "PUT",
+    body: JSON.stringify({ data: { reservation_id } }),
+    headers,
   };
   return await fetchJson(url, options, {});
 }
