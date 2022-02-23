@@ -7,10 +7,10 @@ exports.up = function (knex) {
     table.string("mobile_number");
     table.date("reservation_date");
     table.time("reservation_time");
-    table.integer("people")
+    table.integer("people");
   });
 };
 
 exports.down = function (knex) {
-  return knex.schema.dropTable("reservations");
+  return knex.schema.dropTableIfExists("reservations");
 };

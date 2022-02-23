@@ -15,11 +15,8 @@ const VALID_PROPERTIES = [
 ];
 
 function hasOnlyValidProperties(req,res,next) {
-
   const { data = {} } = req.body
-
   const invalidFields = Object.keys(data).filter((field) => !VALID_PROPERTIES.includes(field));
-  console.log(invalidFields)
 
   if (invalidFields.length) {
     return next({
@@ -34,6 +31,11 @@ function hasOnlyValidProperties(req,res,next) {
 const hasRequiredProperties = hasProperties("first_name", "last_name", "mobile_number",
 "reservation_date", "reservation_time", "people");
 
+function read(req, res, next) {
+  // const { reservaton: data } = res.locals
+  res.json({ data })
+}
+
 function isDate(req, res, next) {
   const date = req.body.data.reservation_date
   const testDate = new Date(date);
@@ -42,13 +44,40 @@ function isDate(req, res, next) {
   }
   return next({
     status:400,
-    message: `Invalid date`
+    message: `reservation_date`
   })
 }
 
+function isTime(req, res, next) {
+  const time = req.body.data.reservation_time;
+  const hour = parseInt(time.substring(0,2))
+  const min = parseInt(time.substring(3))
+
+  if (time.length === 5 && 0<=hour<=24 && 0<=min<60) {
+    return next();
+  }
+  return next({
+    status:400,
+    message: "reservation_time"
+  })
+}
+
+// function peopleIsNumber(req, res, next) {
+//   const people = req.body.data.people;
+//   if (typeof(people) === "number") {
+//     return next();
+//   }
+//   return next({
+//     status: 400,
+//     message: `people`
+//   })
+// }
 
 async function list(req, res) {
   const data = await reservationsService.list(req.query.date);
+  data.sort((a,b) => {
+    return parseInt(a.reservation_time.replace(":","")) - parseInt(b.reservation_time.replace(":",""))
+  })
   res.json({ data })
 }
 
@@ -83,7 +112,7 @@ function validDate(req, res, next) {
   } else {
     return next({
       status: 400,
-      message: `Invalid date. Enter future date that is not on a Tuesday`
+      message: `Invalid date. Enter future date that is not on a Tuesday when we are closed`
     });
   }
 }
@@ -112,7 +141,11 @@ module.exports = {
     hasOnlyValidProperties,
     hasRequiredProperties,
     isDate,
+    isTime,
+    // peopleIsNumber,
     validDate,
     validTime,
-    asyncErrorBoundary(create)],
+    asyncErrorBoundary(create)
+  ],
+  read,
 };
