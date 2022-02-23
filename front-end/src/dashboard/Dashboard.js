@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { listReservations, listTables } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import { next, previous, today } from "../utils/date-time";
+import TableTile from "./TableTile";
 // import { Link } from 'react-router-dom'
 
 /**
@@ -49,10 +50,11 @@ function Dashboard({ defaultDate }) {
 
   const tables = tablesList && tablesList.map((table, i) => {
     return (
-      <div>
-        <p>Name: {table.table_name} Capacity: {table.capacity}</p>
-        <p data-table-id-status={table.table_id}>{ table.reservation_id === null ? 'Free' : `Occupied`}</p>
-      </div>
+      <TableTile key={i} table={table} />
+      // <div>
+      //   <p>Name: {table.table_name} Capacity: {table.capacity}</p>
+      //   <p data-table-id-status={table.table_id}>{ table.reservation_id === null ? 'Free' : `Occupied`}</p>
+      // </div>
     )
   })
   const list = reservations && reservations.map((res, i) => {

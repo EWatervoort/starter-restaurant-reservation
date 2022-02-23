@@ -85,8 +85,8 @@ async function tableExists(req, res, next) {
     return next();
   }
   return next({
-    status: 400,
-    message: `Table cannot be found`,
+    status: 404,
+    message: `99 Table cannot be found`,
   });
 }
 
@@ -137,6 +137,25 @@ function occupied(req, res, next) {
   });
 }
 
+function notOccupied(req, res, next) {
+  const table = res.locals.table;
+  console.log('table', table)
+  if (table.reservation_id) {
+   return next();
+  }
+  return next({
+    status: 400,
+    message: `Table is not occupied`,
+  });
+}
+
+async function destroy(req, res, next) {
+  const table = res.locals.table
+  await tablesService.deleteTable(table.table_id, table.reservation_id);
+  res.status(200).json({})
+
+}
+
 module.exports = {
   create: [
     hasOnlyValidProperties,
@@ -156,4 +175,9 @@ module.exports = {
     occupied,
     asyncErrorBoundary(update),
   ],
+  delete: [
+    asyncErrorBoundary(tableExists),
+    notOccupied,
+    asyncErrorBoundary(destroy)
+  ]
 };

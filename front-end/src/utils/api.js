@@ -97,7 +97,6 @@ export async function listTables(signal) {
 }
 
 export async function seatReservation(reservation_id, table_id) {
-  console.log(table_id)
   const url = `${API_BASE_URL}/tables/${table_id}/seat`;
   const options = {
     method: "PUT",
@@ -105,4 +104,12 @@ export async function seatReservation(reservation_id, table_id) {
     headers,
   };
   return await fetchJson(url, options, {});
+}
+
+export async function deleteTable(table_id) {
+  const url = `${API_BASE_URL}/tables/${table_id}/seat`;
+  const options = {
+    method: "DELETE",
+  }
+  return await fetchJson(url, options)
 }
