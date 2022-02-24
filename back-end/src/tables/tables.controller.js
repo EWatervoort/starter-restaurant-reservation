@@ -105,11 +105,9 @@ async function reservationExists(req, res, next) {
 }
 
 async function update(req, res, next) {
-  const updatedTable = {
-    ...res.locals.table,
-    reservation_id: req.body.data.reservation_id,
-  };
-  const data = await tablesService.update(updatedTable);
+  const reservation = res.locals.reservation
+  const table = res.locals.table
+  const data = await tablesService.update(reservation.reservation_id, table.table_id);
   res.json({ data });
 }
 
@@ -127,7 +125,6 @@ function largeEnoughTable(req, res, next) {
 
 function occupied(req, res, next) {
   const table = res.locals.table;
-  console.log('table', table)
   if (!table.reservation_id) {
    return next();
   }
@@ -139,7 +136,6 @@ function occupied(req, res, next) {
 
 function notOccupied(req, res, next) {
   const table = res.locals.table;
-  console.log('table', table)
   if (table.reservation_id) {
    return next();
   }
@@ -151,6 +147,7 @@ function notOccupied(req, res, next) {
 
 async function destroy(req, res, next) {
   const table = res.locals.table
+  console.log(table)
   await tablesService.deleteTable(table.table_id, table.reservation_id);
   res.status(200).json({})
 

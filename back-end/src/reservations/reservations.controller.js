@@ -78,7 +78,10 @@ async function list(req, res) {
   data.sort((a,b) => {
     return parseInt(a.reservation_time.replace(":","")) - parseInt(b.reservation_time.replace(":",""))
   })
-  res.json({ data })
+  const filtered = data.filter((reservation) => {
+    return reservation.status !== "finished"
+  })
+  res.json({ data: filtered })
 }
 
 async function create(req, res, next) {
@@ -135,6 +138,27 @@ function validTime(req, res, next) {
 
 }
 
+async function reservationExists(req, res, next) {
+  const reservation = await reservationsService.read(
+    req.body.data.reservation_id
+  );
+  if (reservation) {
+    res.locals.reservation = reservation;
+    return next();
+  }
+  return next({
+    status: 404,
+    message: `Reservation cannot be found ${reservation.reservation_id}`,
+  });
+}
+
+async function updateStatus(req, res, next) {
+  const reservation = res.locals.reservation
+  const status = req.body.data.status
+  const data = await reservationsService.updateStatus(reservation.reservation_id, status);
+  res.status(200).res.json({ data });
+}
+
 module.exports = {
   list,
   create: [
@@ -148,4 +172,8 @@ module.exports = {
     asyncErrorBoundary(create)
   ],
   read,
+  updateStatus: [
+    asyncErrorBoundary(reservationExists),
+    asyncErrorBoundary(updateStatus)
+  ],
 };

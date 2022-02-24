@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { listReservations, listTables } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import { next, previous, today } from "../utils/date-time";
-import TableTile from "./TableTile";
-// import { Link } from 'react-router-dom'
+import TableTile from "../AddTable/TableTile";
+import ReservationTile from "../AddReservation/ReservationTile"
 
 /**
  * Defines the dashboard page.
@@ -51,27 +51,12 @@ function Dashboard({ defaultDate }) {
   const tables = tablesList && tablesList.map((table, i) => {
     return (
       <TableTile key={i} table={table} />
-      // <div>
-      //   <p>Name: {table.table_name} Capacity: {table.capacity}</p>
-      //   <p data-table-id-status={table.table_id}>{ table.reservation_id === null ? 'Free' : `Occupied`}</p>
-      // </div>
     )
   })
-  const list = reservations && reservations.map((res, i) => {
+  
+  const list = reservations && reservations.map((reservation, i) => {
     return (
-      <div key={i} className="card">
-      <div className="card-body">
-        <blockquote className="blockquote mb-0">
-          <p>Name: {res.first_name} {res.last_name}</p>
-          <p>Phone Number: {res.mobile_number}</p>
-          <p>Number of People in Party : {res.people} </p>
-          <p>Reservation Time: {res.reservation_time.substring(0, 5)}</p>
-          <a href={`/reservations/${res.reservation_id}/seat`}>
-            <button type="button" className="btn btn-secondary">Seat</button>
-          </a>
-        </blockquote>
-      </div>
-    </div>
+      <ReservationTile key={i} reservation={reservation} />
     )
   })
 
