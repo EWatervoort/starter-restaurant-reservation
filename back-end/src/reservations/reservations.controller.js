@@ -12,6 +12,7 @@ const VALID_PROPERTIES = [
   "reservation_date",
   "reservation_time",
   "people",
+  "status",
 ];
 
 function hasOnlyValidProperties(req,res,next) {
@@ -31,8 +32,9 @@ function hasOnlyValidProperties(req,res,next) {
 const hasRequiredProperties = hasProperties("first_name", "last_name", "mobile_number",
 "reservation_date", "reservation_time", "people");
 
-function read(req, res, next) {
-  // const { reservaton: data } = res.locals
+async function read(req, res, next) {
+  const reservation = res.locals.reservation
+  const data = await reservationsService.read(reservation.reservation_id)
   res.json({ data })
 }
 
@@ -62,26 +64,50 @@ function isTime(req, res, next) {
   })
 }
 
-// function peopleIsNumber(req, res, next) {
-//   const people = req.body.data.people;
-//   if (typeof(people) === "number") {
+function peopleIsNumber(req, res, next) {
+  const people = req.body.data.people;
+  if (typeof(people) === "number") {
+    return next();
+  }
+  return next({
+    status: 400,
+    message: `people is not a number`
+  })
+}
+
+// function newStatus(req, res, next) {
+//   const data = req.body.data
+//   console.log(data)
+//   if (data.status === "booked") {
 //     return next();
 //   }
 //   return next({
 //     status: 400,
-//     message: `people`
+//     message: `New reservation status should not be seated or finished`
 //   })
 // }
 
 async function list(req, res) {
-  const data = await reservationsService.list(req.query.date);
-  data.sort((a,b) => {
-    return parseInt(a.reservation_time.replace(":","")) - parseInt(b.reservation_time.replace(":",""))
-  })
-  const filtered = data.filter((reservation) => {
-    return reservation.status !== "finished"
-  })
-  res.json({ data: filtered })
+  // const data = await reservationsService.list(req.query.date);
+  const { mobile_number } = req.query
+  const { date } = req.query
+  let data
+
+  if (date) {
+    data = await reservationsService.list(date)
+    // data.sort((a,b) => {
+    //   return parseInt(a.reservation_time.replace(":","")) - parseInt(b.reservation_time.replace(":",""))
+    // })
+    // const filtered = data.filter((reservation) => {
+    //   return reservation.status !== "finished"
+    // })
+    // res.json({ data: filtered })
+  } else if (mobile_number) {
+    data = await reservationsService.search(mobile_number)
+    // res.json({ data })
+  }
+
+  res.json({ data })
 }
 
 async function create(req, res, next) {
@@ -148,7 +174,7 @@ async function reservationExists(req, res, next) {
   }
   return next({
     status: 404,
-    message: `Reservation cannot be found ${reservation.reservation_id}`,
+    message: `99 Reservation cannot be found ${reservation.reservation_id}`,
   });
 }
 
@@ -159,21 +185,39 @@ async function updateStatus(req, res, next) {
   res.status(200).res.json({ data });
 }
 
+function validStatus(req, res, next) {
+  const valid = ["booked", "seated", "finished"]
+}
+
+async function search(req, res, next) {
+  const data = await reservationsService.search(req.body.data.mobile_number);
+  res.json({ data })
+}
+
 module.exports = {
-  list,
+  list: [
+    asyncErrorBoundary(list)
+  ],
   create: [
     hasOnlyValidProperties,
     hasRequiredProperties,
     isDate,
     isTime,
-    // peopleIsNumber,
+    // newStatus,
+    peopleIsNumber,
     validDate,
     validTime,
     asyncErrorBoundary(create)
   ],
-  read,
+  read: [
+    asyncErrorBoundary(reservationExists),
+    asyncErrorBoundary(read)
+  ],
   updateStatus: [
     asyncErrorBoundary(reservationExists),
     asyncErrorBoundary(updateStatus)
+  ],
+  search: [
+    asyncErrorBoundary(search)
   ],
 };

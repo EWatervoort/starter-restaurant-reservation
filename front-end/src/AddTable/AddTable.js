@@ -5,10 +5,18 @@ import { createTable } from "../utils/api"
 function TableForm() {
   const [table, setTable] = useState({});
   const [hasError, setHasError] = useState('')
+  const history = useHistory();
+
   const changeHandler = (event) => {
     setTable({...table, [event.target.name]: event.target.value })
   }
-  const history = useHistory();
+  
+  const changeToNumber = ({ target }) => {
+    setTable({
+      ...table,
+      [target.name]: parseInt(target.value)
+    })
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -45,7 +53,7 @@ function TableForm() {
             type = "number"
             name = "capacity"
             required = {true}
-            onChange={changeHandler}
+            onChange={changeToNumber}
             value = {table.capacity}
           />
         </label>

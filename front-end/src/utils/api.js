@@ -113,3 +113,13 @@ export async function deleteTable(table_id) {
   }
   return await fetchJson(url, options)
 }
+
+export async function cancelReservation(reservation_id) {
+  const url = `${API_BASE_URL}/reservations/${reservation_id}/status`
+  const options = {
+    method: "PUT",
+    body: JSON.stringify({ data: { status: "cancelled" } }),
+    headers,
+  };
+  return await fetchJson(url, options, {});
+}
