@@ -86,7 +86,7 @@ async function tableExists(req, res, next) {
   }
   return next({
     status: 404,
-    message: `99 Table cannot be found`,
+    message: `Table cannot be found ${req.params.table_id}`,
   });
 }
 
@@ -100,7 +100,7 @@ async function reservationExists(req, res, next) {
   }
   return next({
     status: 404,
-    message: `999 reservation cannot be found`,
+    message: `Reservation cannot be found ${req.body.data.reservation_id}`,
   });
 }
 
@@ -147,10 +147,20 @@ function notOccupied(req, res, next) {
 
 async function destroy(req, res, next) {
   const table = res.locals.table
-  console.log(table)
   await tablesService.deleteTable(table.table_id, table.reservation_id);
   res.status(200).json({})
 
+}
+
+function isSeated(req, res, next) {
+  const status = res.locals.reservation.status;
+  if (status === "seated") {
+    return next ({
+      status: 400,
+      message: `The reservation is already seated`
+    })
+  }
+  return next();
 }
 
 module.exports = {
@@ -170,6 +180,7 @@ module.exports = {
     asyncErrorBoundary(reservationExists),
     largeEnoughTable,
     occupied,
+    isSeated,
     asyncErrorBoundary(update),
   ],
   delete: [

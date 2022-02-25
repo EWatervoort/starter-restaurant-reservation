@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from 'react-router-dom';
-import { seatReservation, listTables } from "../utils/api"
+import { seatReservation, listTables, updateStatus } from "../utils/api"
 
 function Seat() {
   const [tableId, setTableId] = useState({});
@@ -40,6 +40,7 @@ function Seat() {
     if (response.error) {
       return setHasError(response.error);
     }
+    await  updateStatus(params.reservation_id, "seated")
     history.push("/")
   }
 

@@ -106,6 +106,17 @@ export async function seatReservation(reservation_id, table_id) {
   return await fetchJson(url, options, {});
 }
 
+export async function updateStatus(reservation_id, status) {
+  const url = `${API_BASE_URL}/reservations/${reservation_id}/status`;
+  console.log(status)
+  const options = {
+    method: "PUT",
+    body: JSON.stringify({ data: { status: status } }),
+    headers,
+  };
+  return await fetchJson(url, options, {});
+}
+
 export async function deleteTable(table_id) {
   const url = `${API_BASE_URL}/tables/${table_id}/seat`;
   const options = {
@@ -114,12 +125,23 @@ export async function deleteTable(table_id) {
   return await fetchJson(url, options)
 }
 
-export async function cancelReservation(reservation_id) {
-  const url = `${API_BASE_URL}/reservations/${reservation_id}/status`
+export async function readReservation(reservation_id, signal) {
+  const url = `${API_BASE_URL}/reservations/${reservation_id}`
+  const options = {
+    method: "GET",
+    headers,
+    signal,
+  }
+  return await fetchJson(url, options)
+}
+
+export async function updateReservation(updatedReservation, signal) {
+  const url = `${API_BASE_URL}/reservations/${updatedReservation.reservation_id}`
   const options = {
     method: "PUT",
-    body: JSON.stringify({ data: { status: "cancelled" } }),
     headers,
-  };
-  return await fetchJson(url, options, {});
+    body: JSON.stringify({ data: updatedReservation }),
+    signal,
+  }
+  return await fetchJson(url, options, updatedReservation)
 }

@@ -1,31 +1,29 @@
-import React, { useState } from "react";
+import React from "react";
 import { useHistory } from 'react-router-dom';
-import { createReservation } from "../utils/api"
 
-function ReservationForm() {
-  const [reservation, setReservation] = useState({});
-  const [hasError, setHasError] = useState('')
+function ReservationForm({ changeHandler, changeToNumber, handleSubmit, reservation }) {
+  // const [hasError, setHasError] = useState('')
   const history = useHistory();
+  // console.log(reservation)
+  // const changeHandler = (event) => {
+  //   setReservation({...reservation, [event.target.name]: event.target.value })
+  // }
 
-  const changeHandler = (event) => {
-    setReservation({...reservation, [event.target.name]: event.target.value })
-  }
+  // const changeToNumber = ({ target }) => {
+  //   setReservation({
+  //     ...reservation,
+  //     [target.name]: parseInt(target.value)
+  //   })
+  // }
 
-  const changeToNumber = ({ target }) => {
-    setReservation({
-      ...reservation,
-      [target.name]: parseInt(target.value)
-    })
-  }
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const response = await createReservation(reservation);
-    if (response.error) {
-      return setHasError(response.error);
-    }
-    history.push("/")
-  }
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+  //   const response = await createReservation({...reservation, status: "booked"});
+  //   if (response.error) {
+  //     return setHasError(response.error);
+  //   }
+  //   history.push("/")
+  // }
 
   const handleCancel = (event) => {
     event.preventDefault();
@@ -106,7 +104,7 @@ function ReservationForm() {
         <button type = "submit" className="btn btn-primary">Submit</button>
         <button type="button" className="btn btn-secondary" onClick={handleCancel}>Cancel</button>
       </form>
-      { hasError && <p className='alert alert-danger'>{hasError}</p>}
+      {/* { hasError && <p className='alert alert-danger'>{hasError}</p>} */}
     </>
   )
 }

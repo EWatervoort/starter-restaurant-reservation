@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { deleteTable } from "../utils/api";
+import { deleteTable, updateStatus } from "../utils/api";
 
 
 function TableTile({ table }) {
@@ -9,6 +9,7 @@ function TableTile({ table }) {
   const deleteButton = async (event) => {
     if (window.confirm(`Is this table ready to seat new guests? This cannot be undone.`)) {
       await deleteTable(table.table_id);
+      await updateStatus(table.reservation_id, "finished")
       history.go(0)
     }
   }
