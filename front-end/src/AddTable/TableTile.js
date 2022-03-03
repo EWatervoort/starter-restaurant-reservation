@@ -15,13 +15,11 @@ function TableTile({ table }) {
   }
 
   return (
-    <div className="card" style={{width: '18rem'}}>
-    <div className="card-body">
-      <h5 className="card-title">{table.table_name}</h5>
-      <h6 className="card-subtitle mb-2 text-muted">{`Capacity: ${table.capacity}`}</h6>
-      <p className="card-text" data-table-id-status={table.table_id}>{ table.reservation_id === null ? 'Free' : `Occupied`}</p>
+    <div className="col-12 col-lg-5 py-3 mb-2 mr-2 bg-dark text-white rounded">
+      <p>Table Name: {table.table_name}</p>
+      <p>{`Capacity: ${table.capacity}`}</p>
+      <p data-table-id-status={table.table_id}>Status: { table.reservation_id === null ? 'Free' : `Occupied`}</p>
       { table.reservation_id && <button type="button" data-table-id-finish={table.table_id} className="btn btn-danger" onClick={deleteButton} key={table.Id}>Finish</button>}
-    </div>
   </div>
   )
 }

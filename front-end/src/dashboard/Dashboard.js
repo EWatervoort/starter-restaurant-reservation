@@ -76,22 +76,47 @@ function Dashboard({ defaultDate }) {
   };
 
   return (
-    <main>
-      <h1>Dashboard</h1>
-      <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for {date}</h4>
+    <main class="container-fluid">
+      <div className="row">
+        <h1 className="mx-auto display-3">Dashboard
+          <small className="text-muted ml-2">{date}</small>
+        </h1>
       </div>
-
-      <button type="button" className="btn btn-secondary" onClick={nextHandle}>
-        Next
-      </button>
-      <button type= "button" className="btn btn-secondary" onClick={previousHandle}>Previous</button>
-      <button type= "button" className="btn btn-secondary" onClick={todayHandle}>Today</button>
+        
+      <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button type= "button" className="btn btn-secondary mr-4 my-2" onClick={previousHandle}>Previous</button>
+        <button type= "button" className="btn btn-primary mr-4 my-2" onClick={todayHandle}>Today</button>
+        <button type="button" className="btn btn-secondary my-2" onClick={nextHandle}>
+          Next
+        </button>
+      </div>
       <ErrorAlert error={reservationsError} />
-      {list}
-      <br />
-      <h3>Tables</h3>
-      {tables}
+      <div className='row'>
+        <div className="col mr-2">
+          <div className="row d-flex justify-content-center">
+            <h3>Reservations</h3>
+          </div>
+          <div className="row align-items-start">
+            <div className='container'>
+              <div className='row'>
+                {list}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col">
+          <div className="row d-flex justify-content-center">
+            <h3>Tables</h3>
+          </div>
+          <div className="row align-items-start">
+            <div className='container'>
+              <div className='row'>
+                {tables}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
   );
 }
