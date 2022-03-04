@@ -33,17 +33,19 @@ function ReservationTile({ reservation }) {
         Status: {reservation.status}
       </p>
       {reservation.status === "booked" && (
-        <a href={`/reservations/${reservation.reservation_id}/seat`}>
-          <button type="button" className="btn btn-success btn-sm mr-2">
-            Seat
-          </button>
-        </a>
+        <div>
+          <a href={`/reservations/${reservation.reservation_id}/seat`}>
+            <button type="button" className="btn btn-success btn-sm mr-2">
+              Seat
+            </button>
+          </a>
+          <a href={`/reservations/${reservation.reservation_id}/edit`}>
+            <button type="button" className="btn btn-primary btn-sm mr-2">
+              Edit
+            </button>
+          </a>
+        </div>
       )}
-      <a href={`/reservations/${reservation.reservation_id}/edit`}>
-        <button type="button" className="btn btn-primary btn-sm mr-2">
-          Edit
-        </button>
-      </a>
       <button
         type="button"
         className="btn btn-danger btn-sm my-2"
