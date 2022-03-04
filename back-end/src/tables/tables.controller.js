@@ -24,7 +24,6 @@ function hasOnlyValidProperties(req, res, next) {
 const hasRequiredProperties = hasProperties("table_name", "capacity");
 const hasUpdateRequiredProperties = hasProperties("reservation_id");
 
-
 function tableNameLength(req, res, next) {
   const table_name = req.body.data.table_name;
   if (table_name.length >= 2) {
@@ -49,7 +48,7 @@ function capacityNumber(req, res, next) {
 
 function capacityIsNumber(req, res, next) {
   const capacity = req.body.data.capacity;
-  if (typeof(capacity) === "number") {
+  if (typeof capacity === "number") {
     return next();
   }
   return next({
@@ -105,9 +104,12 @@ async function reservationExists(req, res, next) {
 }
 
 async function update(req, res, next) {
-  const reservation = res.locals.reservation
-  const table = res.locals.table
-  const data = await tablesService.update(reservation.reservation_id, table.table_id);
+  const reservation = res.locals.reservation;
+  const table = res.locals.table;
+  const data = await tablesService.update(
+    reservation.reservation_id,
+    table.table_id
+  );
   res.json({ data });
 }
 
@@ -126,7 +128,7 @@ function largeEnoughTable(req, res, next) {
 function occupied(req, res, next) {
   const table = res.locals.table;
   if (!table.reservation_id) {
-   return next();
+    return next();
   }
   return next({
     status: 400,
@@ -137,7 +139,7 @@ function occupied(req, res, next) {
 function notOccupied(req, res, next) {
   const table = res.locals.table;
   if (table.reservation_id) {
-   return next();
+    return next();
   }
   return next({
     status: 400,
@@ -146,19 +148,18 @@ function notOccupied(req, res, next) {
 }
 
 async function destroy(req, res, next) {
-  const table = res.locals.table
+  const table = res.locals.table;
   await tablesService.deleteTable(table.table_id, table.reservation_id);
-  res.status(200).json({})
-
+  res.status(200).json({});
 }
 
 function isSeated(req, res, next) {
   const status = res.locals.reservation.status;
   if (status === "seated") {
-    return next ({
+    return next({
       status: 400,
-      message: `The reservation is already seated`
-    })
+      message: `The reservation is already seated`,
+    });
   }
   return next();
 }
@@ -186,6 +187,6 @@ module.exports = {
   delete: [
     asyncErrorBoundary(tableExists),
     notOccupied,
-    asyncErrorBoundary(destroy)
-  ]
+    asyncErrorBoundary(destroy),
+  ],
 };

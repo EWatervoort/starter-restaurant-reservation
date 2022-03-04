@@ -3,7 +3,7 @@ import { listReservations, listTables } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import { next, previous, today } from "../utils/date-time";
 import TableTile from "../AddTable/TableTile";
-import ReservationTile from "../AddReservation/ReservationTile"
+import ReservationTile from "../AddReservation/ReservationTile";
 
 /**
  * Defines the dashboard page.
@@ -32,33 +32,33 @@ function Dashboard({ defaultDate }) {
   }
 
   useEffect(() => {
-    const controller = new AbortController()
-    const { signal } = controller
+    const controller = new AbortController();
+    const { signal } = controller;
     const getTables = async () => {
       try {
         const response = await listTables(signal);
-        setTablesList(response)
-      } catch(e) {
-        console.log(e)
+        setTablesList(response);
+      } catch (e) {
+        console.log(e);
       }
-    }
+    };
     getTables();
     return () => {
-      controller.abort()
-    }
-  }, [])
+      controller.abort();
+    };
+  }, []);
 
-  const tables = tablesList && tablesList.map((table, i) => {
-    return (
-      <TableTile key={i} table={table} />
-    )
-  })
-  
-  const list = reservations && reservations.map((reservation, i) => {
-    return (
-      <ReservationTile key={i} reservation={reservation} />
-    )
-  })
+  const tables =
+    tablesList &&
+    tablesList.map((table, i) => {
+      return <TableTile key={i} table={table} />;
+    });
+
+  const list =
+    reservations &&
+    reservations.map((reservation, i) => {
+      return <ReservationTile key={i} reservation={reservation} />;
+    });
 
   const nextHandle = (event) => {
     event.preventDefault();
@@ -78,29 +78,44 @@ function Dashboard({ defaultDate }) {
   return (
     <main class="container-fluid">
       <div className="row">
-        <h1 className="mx-auto display-3">Dashboard
+        <h1 className="mx-auto display-3">
+          Dashboard
           <small className="text-muted ml-2">{date}</small>
         </h1>
       </div>
-        
+
       <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button type= "button" className="btn btn-secondary mr-4 my-2" onClick={previousHandle}>Previous</button>
-        <button type= "button" className="btn btn-primary mr-4 my-2" onClick={todayHandle}>Today</button>
-        <button type="button" className="btn btn-secondary my-2" onClick={nextHandle}>
+        <button
+          type="button"
+          className="btn btn-secondary mr-4 my-2"
+          onClick={previousHandle}
+        >
+          Previous
+        </button>
+        <button
+          type="button"
+          className="btn btn-primary mr-4 my-2"
+          onClick={todayHandle}
+        >
+          Today
+        </button>
+        <button
+          type="button"
+          className="btn btn-secondary my-2"
+          onClick={nextHandle}
+        >
           Next
         </button>
       </div>
       <ErrorAlert error={reservationsError} />
-      <div className='row'>
+      <div className="row">
         <div className="col mr-2">
           <div className="row d-flex justify-content-center">
             <h3>Reservations</h3>
           </div>
           <div className="row align-items-start">
-            <div className='container'>
-              <div className='row'>
-                {list}
-              </div>
+            <div className="container">
+              <div className="row">{list}</div>
             </div>
           </div>
         </div>
@@ -109,10 +124,8 @@ function Dashboard({ defaultDate }) {
             <h3>Tables</h3>
           </div>
           <div className="row align-items-start">
-            <div className='container'>
-              <div className='row'>
-                {tables}
-              </div>
+            <div className="container">
+              <div className="row">{tables}</div>
             </div>
           </div>
         </div>

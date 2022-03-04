@@ -1,12 +1,17 @@
 import React from "react";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
-function ReservationForm({ changeHandler, changeToNumber, handleSubmit, reservation }) {
+function ReservationForm({
+  changeHandler,
+  changeToNumber,
+  handleSubmit,
+  reservation,
+}) {
   const history = useHistory();
   const handleCancel = (event) => {
     event.preventDefault();
     history.goBack();
-  }
+  };
 
   return (
     <>
@@ -15,14 +20,14 @@ function ReservationForm({ changeHandler, changeToNumber, handleSubmit, reservat
           <div className="col-4">
             <label htmlFor="first_name">
               First Name
-              <input 
+              <input
                 className="form-control"
-                id ="first_name"
-                type = "text"
-                name = "first_name"
-                required = {true}
+                id="first_name"
+                type="text"
+                name="first_name"
+                required={true}
                 onChange={changeHandler}
-                value = {reservation.first_name}
+                value={reservation.first_name}
               />
             </label>
           </div>
@@ -30,13 +35,13 @@ function ReservationForm({ changeHandler, changeToNumber, handleSubmit, reservat
             <label htmlFor="last_name">
               Last Name
               <input
-                className="form-control" 
-                id ="last_name"
-                type = "text"
-                name = "last_name"
-                required = {true}
+                className="form-control"
+                id="last_name"
+                type="text"
+                name="last_name"
+                required={true}
                 onChange={changeHandler}
-                value = {reservation.last_name}
+                value={reservation.last_name}
               />
             </label>
           </div>
@@ -45,28 +50,28 @@ function ReservationForm({ changeHandler, changeToNumber, handleSubmit, reservat
           <div className="col-4">
             <label htmlFor="mobile_number">
               Mobile Number
-              <input 
-                className="form-control" 
-                id ="mobile_number"
-                type = "text"
-                name = "mobile_number"
-                required = {true}
+              <input
+                className="form-control"
+                id="mobile_number"
+                type="text"
+                name="mobile_number"
+                required={true}
                 onChange={changeHandler}
-                value = {reservation.mobile_number}
+                value={reservation.mobile_number}
               />
             </label>
           </div>
           <div className="col-4">
             <label htmlFor="reservation_date">
               Reservation Date
-              <input 
-                className="form-control" 
-                id ="reservation_date"
-                type = "date"
-                name = "reservation_date"
-                required = {true}
+              <input
+                className="form-control"
+                id="reservation_date"
+                type="date"
+                name="reservation_date"
+                required={true}
                 onChange={changeHandler}
-                value = {reservation.reservation_date}
+                value={reservation.reservation_date}
               />
             </label>
           </div>
@@ -76,39 +81,47 @@ function ReservationForm({ changeHandler, changeToNumber, handleSubmit, reservat
             <label htmlFor="reservation_time">
               Reservation Time
               <input
-                className="form-control"  
-                id ="reservation_time"
-                type = "time"
-                name = "reservation_time"
-                required = {true}
+                className="form-control"
+                id="reservation_time"
+                type="time"
+                name="reservation_time"
+                required={true}
                 onChange={changeHandler}
-                value = {reservation.reservation_time}
+                value={reservation.reservation_time}
               />
             </label>
           </div>
           <div className="col-4">
             <label htmlFor="people">
               People in Party
-              <input 
-                className="form-control" 
-                id ="people"
-                type = "number"
-                name = "people"
-                required = {true}
+              <input
+                className="form-control"
+                id="people"
+                type="number"
+                name="people"
+                required={true}
                 onChange={changeToNumber}
-                value = {reservation.people}
+                value={reservation.people}
                 min="1"
               />
             </label>
           </div>
         </div>
         <div className="row mx-auto">
-          <button type = "submit" className="btn btn-primary mr-2">Submit</button>
-          <button type="button" className="btn btn-secondary" onClick={handleCancel}>Cancel</button>
+          <button type="submit" className="btn btn-primary mr-2">
+            Submit
+          </button>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={handleCancel}
+          >
+            Cancel
+          </button>
         </div>
       </form>
     </>
-  )
+  );
 }
 
-export default ReservationForm
+export default ReservationForm;

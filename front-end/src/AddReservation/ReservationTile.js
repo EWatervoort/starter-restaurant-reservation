@@ -10,25 +10,18 @@ function ReservationTile({ reservation }) {
         `Do you want to cancel this reservation? This cannot be undone.`
       )
     ) {
-      await updateStatus(reservation.reservation_id, "cancelled")
+      await updateStatus(reservation.reservation_id, "cancelled");
       history.go(0);
     }
   };
 
   return (
-
     <div className="col-12 col-lg-4 bg-dark text-white py-3 mb-2 mr-2 rounded">
-      <p>
-        First Name: {reservation.first_name}
-      </p>
-      <p>
-        Last Name: {reservation.last_name}
-      </p>
+      <p>First Name: {reservation.first_name}</p>
+      <p>Last Name: {reservation.last_name}</p>
       <p>Phone Number: {reservation.mobile_number}</p>
       <p>Party Size : {reservation.people} </p>
-      <p>
-        Reservation Time: {reservation.reservation_time.substring(0, 5)}
-      </p>
+      <p>Reservation Time: {reservation.reservation_time.substring(0, 5)}</p>
       <p data-reservation-id-status={reservation.reservation_id}>
         Status: {reservation.status}
       </p>

@@ -5,8 +5,8 @@ import Dashboard from "../dashboard/Dashboard";
 import NotFound from "./NotFound";
 import { today } from "../utils/date-time";
 import AddReservation from "../AddReservation/AddReservation";
-import AddTable from "../AddTable/AddTable"
-import Seat from "../AddReservation/Seat"
+import AddTable from "../AddTable/AddTable";
+import Seat from "../AddReservation/Seat";
 import SearchForm from "../Search/Search";
 import EditReservation from "../AddReservation/EditReservation";
 
@@ -29,7 +29,7 @@ function Routes() {
       <Route path="/dashboard">
         <Dashboard defaultDate={today()} />
       </Route>
-      <Route exact path ="/reservations/new">
+      <Route exact path="/reservations/new">
         <AddReservation />
       </Route>
       <Route exact path="/tables/new">

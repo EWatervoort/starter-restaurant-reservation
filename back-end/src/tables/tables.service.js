@@ -3,20 +3,16 @@ const knex = require("../db/connection");
 function create(table) {
   return knex("tables")
     .insert(table)
-    .returning('*')
+    .returning("*")
     .then((createdRecords) => createdRecords[0]);
 }
 
 function list() {
-  return knex("tables")
-    .select("*")
+  return knex("tables").select("*");
 }
 
 function read(table_id) {
-  return knex("tables")
-    .select("*")
-    .where({ table_id })
-    .first();
+  return knex("tables").select("*").where({ table_id }).first();
 }
 
 function update(reservation_id, table_id) {
@@ -26,10 +22,9 @@ function update(reservation_id, table_id) {
     .then(() => {
       return knex("tables")
         .where({ table_id })
-        .update( {reservation_id} )
-        .returning("*")
-    })
- 
+        .update({ reservation_id })
+        .returning("*");
+    });
 }
 
 function deleteTable(table_id, reservation_id) {
@@ -41,9 +36,8 @@ function deleteTable(table_id, reservation_id) {
       return knex("tables")
         .where({ table_id })
         .update({ reservation_id: null })
-        .returning("*")
-    })
-
+        .returning("*");
+    });
 }
 
 module.exports = {
@@ -52,4 +46,4 @@ module.exports = {
   read,
   update,
   deleteTable,
-}
+};
