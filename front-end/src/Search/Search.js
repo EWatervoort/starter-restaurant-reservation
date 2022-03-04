@@ -39,10 +39,14 @@ function SearchForm() {
 
 
   return (
-    <>
+    <div className="container">
+      <h1>Search by Number</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="mobile_number">
-          Mobile Number
+          <span className="h5">
+            Mobile Number
+          </span>
+          <br />
           <input 
             id ="mobile_number"
             type = "text"
@@ -53,15 +57,21 @@ function SearchForm() {
             placeholder="Enter a customer's phone number"
           />
         </label>
-        <button type = "submit" className="btn btn-primary">Find</button>
+        <br />
+
+        <button type = "submit" className="btn btn-primary my-2">Find</button>
       </form>
+      <div className="container">
+        <div className="row">
+          {
+            reservations.length > 0 && list
+          }
+        </div>
+      </div>
       {
-        reservations.length > 0 && list
-      }
-      {
-        !found && <p className="alert alert-danger">No reservations found</p>
-      }
-    </>
+            !found && <p className="alert alert-danger">No reservations found</p>
+          }
+    </div>
   )
 }
 

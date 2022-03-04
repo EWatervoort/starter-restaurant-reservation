@@ -39,6 +39,7 @@ function AddReservation() {
 
   return (
     <div>
+      <h1>New Reservation</h1>
       <ReservationForm
         changeHandler = {changeHandler}
         changeToNumber = {changeToNumber}
