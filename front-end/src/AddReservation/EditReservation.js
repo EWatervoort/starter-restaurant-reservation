@@ -44,6 +44,7 @@ function EditReservation() {
 
   return (
     <div>
+      <h1>Edit Reservation</h1>
       <ReservationForm
         changeHandler = {changeHandler}
         changeToNumber = {changeToNumber}

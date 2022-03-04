@@ -97,6 +97,7 @@ function ReservationForm({ changeHandler, changeToNumber, handleSubmit, reservat
                 required = {true}
                 onChange={changeToNumber}
                 value = {reservation.people}
+                min="1"
               />
             </label>
           </div>
@@ -106,7 +107,6 @@ function ReservationForm({ changeHandler, changeToNumber, handleSubmit, reservat
           <button type="button" className="btn btn-secondary" onClick={handleCancel}>Cancel</button>
         </div>
       </form>
-      {/* { hasError && <p className='alert alert-danger'>{hasError}</p>} */}
     </>
   )
 }

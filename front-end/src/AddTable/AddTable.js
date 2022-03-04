@@ -33,35 +33,45 @@ function TableForm() {
   }
 
   return (
-    <>
+    <div className="container">
+      <h1>New Table</h1>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="table_name">
-          Table Name
-          <input 
-            id ="table_name"
-            type = "text"
-            name = "table_name"
-            required = {true}
-            onChange={changeHandler}
-            value = {table.table_name}
-          />
-        </label>
-        <label htmlFor="capacity">
-          Capacity
-          <input 
-            id ="capacity"
-            type = "number"
-            name = "capacity"
-            required = {true}
-            onChange={changeToNumber}
-            value = {table.capacity}
-          />
-        </label>
-        <button type = "submit" className="btn btn-primary">Submit</button>
+        <div className="row">
+          <div className="col-4">
+            <label htmlFor="table_name">
+              Table Name
+              <input 
+                className="form-control"
+                id ="table_name"
+                type = "text"
+                name = "table_name"
+                required = {true}
+                onChange={changeHandler}
+                value = {table.table_name}
+              />
+            </label>
+          </div>
+          <div className="col-4">
+            <label htmlFor="capacity">
+              Capacity
+              <input 
+                className="form-control"
+                id ="capacity"
+                type = "number"
+                name = "capacity"
+                required = {true}
+                onChange={changeToNumber}
+                value = {table.capacity}
+                min="1"
+              />
+            </label>
+          </div>
+        </div>
+        <button type = "submit" className="btn btn-primary mr-2">Submit</button>
         <button type="button" className="btn btn-secondary" onClick={handleCancel}>Cancel</button>
       </form>
       { hasError && <p className='alert alert-danger'>{hasError}</p>}
-    </>
+    </div>
   )
 }
 

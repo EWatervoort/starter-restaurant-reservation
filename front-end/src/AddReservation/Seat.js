@@ -50,33 +50,38 @@ function Seat() {
   }
   
   return (
-    <>
+    <div className="container">
+      <h1>Seat Reservation</h1>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="table_id">
-          
-          <select 
-            id ="table_id"
-            type = "text"
-            name = "table_id"
-            required = {true}
-            onChange={changeHandler}
-            value = {tableId}
-          >
-            <option value="" >-- Select an Option --</option>
-            {
-              tablesList.map(entry => {
-                return (
-                  <option key={`option_${entry.table_id}`} value={entry.table_id}>{entry.table_name} - {entry.capacity}</option>
-                );
-              })
-            }  
-          </select>
-        </label>
-        <button type = "submit" className="btn btn-primary">Submit</button>
+        <div className="row">
+          <div className="col">
+            <label htmlFor="table_id">
+              <select 
+                className="form-control"
+                id ="table_id"
+                type = "text"
+                name = "table_id"
+                required = {true}
+                onChange={changeHandler}
+                value = {tableId}
+              >
+                <option value="" >-- Select an Option --</option>
+                {
+                  tablesList.map(entry => {
+                    return (
+                      <option key={`option_${entry.table_id}`} value={entry.table_id}>{entry.table_name} - {entry.capacity}</option>
+                    );
+                  })
+                }  
+              </select>
+            </label>
+          </div>
+        </div>
+        <button type = "submit" className="btn btn-primary mr-2">Submit</button>
         <button type="button" className="btn btn-secondary" onClick={handleCancel}>Cancel</button>
       </form>
       { hasError && <p className='alert alert-danger'>{hasError}</p>}
-    </>
+    </div>
   )
 }
 
