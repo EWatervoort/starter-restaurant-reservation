@@ -23,7 +23,7 @@ Key Features
 - PostgreSQL
 - Knex
 
-## Instalation
+## Installation
 
 Navigate to the root of the repository and install dependencies.
 ```bash
